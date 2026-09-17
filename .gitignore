@@ -1,0 +1,12 @@
+.env
+venv/
+__pycache__/
+*.pyc
+server.log
+node_modules/
+*.db
+*.db.*
+*.backup
+*.before_*
+*.feature1_done
+*.feature2_email_verification

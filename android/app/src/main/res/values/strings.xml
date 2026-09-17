@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CaptionAI</string>
+    <string name="title_activity_main">CaptionAI</string>
+    <string name="package_name">com.captionai.app</string>
+    <string name="custom_url_scheme">com.captionai.app</string>
+</resources>
