@@ -748,7 +748,7 @@ async function generateCaption(){
   try{
 
     const response = await fetch(
-      "https://press-receiver-sprint-int.trycloudflare.com/api/generate-caption",
+      "https://captionai-zgod.onrender.com/api/generate-caption",
       {
         method:"POST",
         headers:{
@@ -1526,7 +1526,7 @@ function closeHistory(){
 }
 
 
-const AUTH_API = "http://172.30.232.80:8080";
+const AUTH_API = "https://captionai-zgod.onrender.com";
 
 function openAuth(){ console.log("OPEN_AUTH_CLICKED");
   const modal = document.getElementById("authModal");

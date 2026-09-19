@@ -53,6 +53,15 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+def init_db():
+    conn = get_db()
+    conn.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT UNIQUE NOT NULL, name TEXT NOT NULL, password_hash TEXT NOT NULL, email_verified INTEGER DEFAULT 0, verification_token TEXT)""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, token TEXT UNIQUE NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES users(id))""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS password_reset_tokens (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, token TEXT UNIQUE NOT NULL, expires_at TEXT NOT NULL, used INTEGER DEFAULT 0, FOREIGN KEY(user_id) REFERENCES users(id))""")
+    conn.commit()
+    conn.close()
+
+
 def get_current_user():
     token = request.headers.get("Authorization", "").replace("Bearer ", "").strip()
     if not token:
@@ -594,6 +603,8 @@ Important:
             "message": "AI content generation failed. Please try again.",
             "error": error_text
         }), 500
+
+init_db()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
