@@ -209,7 +209,7 @@ def resend_verification():
     if not sent:
         return jsonify({
             "success": False,
-            "message": "Unable to send verification email."
+            "message": "Unable to send verification email.", "error": result
         }), 500
 
     return jsonify({
