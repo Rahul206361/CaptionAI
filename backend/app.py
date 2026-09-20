@@ -38,6 +38,8 @@ def send_email(to_email, subject, text):
         )
 
         if response.status_code == 200:
+            print("RESEND_STATUS:", response.status_code, flush=True)
+            print("RESEND_RESPONSE:", response.text, flush=True)
             return True, response.json()
 
         return False, response.text
@@ -106,7 +108,7 @@ def register():
     conn.commit()
     conn.close()
 
-    verification_link = "http://127.0.0.1:5000/api/verify-email/" + verification_token
+    verification_link = "https://captionai-zgod.onrender.com/api/verify-email/" + verification_token
     send_email(
         email,
         "Verify your CaptionAI email",
@@ -196,7 +198,7 @@ def resend_verification():
     conn.commit()
     conn.close()
 
-    verification_link = "http://127.0.0.1:5000/api/verify-email/" + verification_token
+    verification_link = "https://captionai-zgod.onrender.com/api/verify-email/" + verification_token
 
     sent, result = send_email(
         email,
