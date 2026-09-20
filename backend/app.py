@@ -173,6 +173,7 @@ def resend_verification():
         "SELECT id, email, email_verified FROM users WHERE email = ?",
         (email,)
     ).fetchone()
+    print("RESEND_USER:", dict(user) if user else None, flush=True)
 
     if not user:
         conn.close()
