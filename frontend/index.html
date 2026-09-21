@@ -429,7 +429,25 @@ body.dark-mode textarea::placeholder{
       <input id="brightnessControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
       <label style="font-weight:700;display:block;margin-top:14px;">🎨 Contrast</label>
       <input id="contrastControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <button onclick="saveEditedPhoto()" style="margin-top:16px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">💾 Save Edited Photo</button>
+      <label style="font-weight:700;display:block;margin-top:14px;">✂️ Crop</label>
+      <input id="cropControl" type="range" min="60" max="100" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <button onclick="rotatePhoto()" style="margin-top:14px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">↻ Rotate 90°</button>
+      <label style="font-weight:700;display:block;margin-top:14px;">🌈 Saturation</label>
+      <input id="saturationControl" type="range" min="0" max="200" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <label style="font-weight:700;display:block;margin-top:14px;">🌫️ Blur</label>
+      <input id="blurControl" type="range" min="0" max="8" value="0" step="1" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <label style="font-weight:700;display:block;margin-top:14px;">🌑 Vignette</label>
+      <input id="vignetteControl" type="range" min="0" max="100" value="0" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <label style="font-weight:700;display:block;margin-top:14px;">🎨 Filter</label>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px;">
+        <button onclick="setPhotoFilter('normal')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Normal</button>
+        <button onclick="setPhotoFilter('warm')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Warm</button>
+        <button onclick="setPhotoFilter('cool')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Cool</button>
+        <button onclick="setPhotoFilter('bw')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">B&W</button>
+        <button onclick="setPhotoFilter('vintage')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Vintage</button>
+      </div>
+      <button onclick="resetPhotoEditor()" style="margin-top:16px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">🔄 Reset Edits</button>
+      <button onclick="saveEditedPhoto()" style="margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">💾 Save Edited Photo</button>
     </div>
     <div id="editorPlaceholder" style="padding:50px 10px;opacity:.7;">📸 Select a photo to start editing</div>
   </div>
@@ -1819,9 +1837,63 @@ function showPhotoEditor(url){
   document.getElementById("editorPlaceholder").style.display = "none";
   document.getElementById("editorControls").style.display = "block";
 
+  editorRotation = 0;
+  editorFilter = "normal";
+
   document.getElementById("brightnessControl").value = 100;
   document.getElementById("contrastControl").value = 100;
+  document.getElementById("cropControl").value = 100;
+  document.getElementById("saturationControl").value = 100;
+  document.getElementById("blurControl").value = 0;
+  document.getElementById("vignetteControl").value = 0;
+
+  img.style.transform = "none";
   img.style.filter = "none";
+  img.style.clipPath = "none";
+}
+
+let editorRotation = 0;
+
+function rotatePhoto(){
+  const img = document.getElementById("editorImage");
+  if(!img || !img.src || !img.naturalWidth){
+    toast("Please select a photo first");
+    return;
+  }
+
+  editorRotation = (editorRotation + 90) % 360;
+  img.style.transform = "rotate(" + editorRotation + "deg)";
+  toast("Photo rotated 90°");
+}
+
+let editorFilter = "normal";
+
+function setPhotoFilter(filter){
+  editorFilter = filter;
+  applyPhotoFilters();
+}
+
+function resetPhotoEditor(){
+  const img = document.getElementById("editorImage");
+
+  document.getElementById("brightnessControl").value = 100;
+  document.getElementById("contrastControl").value = 100;
+  document.getElementById("cropControl").value = 100;
+  document.getElementById("saturationControl").value = 100;
+  document.getElementById("blurControl").value = 0;
+  document.getElementById("vignetteControl").value = 0;
+
+  editorRotation = 0;
+  editorFilter = "normal";
+
+  if(img){
+    img.style.transform = "none";
+    img.style.filter = "none";
+    img.style.clipPath = "none";
+  }
+
+  applyPhotoFilters();
+  toast("Photo edits reset");
 }
 
 function saveEditedPhoto(){
@@ -1831,17 +1903,63 @@ function saveEditedPhoto(){
     return;
   }
 
+  const crop = Number(document.getElementById("cropControl").value) / 100;
+  const sourceW = img.naturalWidth * crop;
+  const sourceH = img.naturalHeight * crop;
+  const sourceX = (img.naturalWidth - sourceW) / 2;
+  const sourceY = (img.naturalHeight - sourceH) / 2;
+
+  const angle = editorRotation * Math.PI / 180;
+  const rotated = editorRotation % 180 !== 0;
+
   const canvas = document.createElement("canvas");
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
+  canvas.width = rotated ? sourceH : sourceW;
+  canvas.height = rotated ? sourceW : sourceH;
 
   const ctx = canvas.getContext("2d");
   const brightness = document.getElementById("brightnessControl").value;
   const contrast = document.getElementById("contrastControl").value;
+  const saturation = document.getElementById("saturationControl").value;
+  const blur = document.getElementById("blurControl").value;
+  const vignette = document.getElementById("vignetteControl").value;
+
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(angle);
+  let filterEffect = "";
+
+  if(editorFilter === "warm"){
+    filterEffect = " sepia(25%) saturate(125%)";
+  } else if(editorFilter === "cool"){
+    filterEffect = " saturate(90%) hue-rotate(15deg)";
+  } else if(editorFilter === "bw"){
+    filterEffect = " grayscale(100%)";
+  } else if(editorFilter === "vintage"){
+    filterEffect = " sepia(35%) saturate(85%) contrast(105%)";
+  }
 
   ctx.filter =
-    "brightness(" + brightness + "%) contrast(" + contrast + "%)";
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    "brightness(" + brightness + "%) contrast(" + contrast + "%) saturate(" + saturation + "%) blur(" + blur + "px)" + filterEffect;
+
+  ctx.drawImage(
+    img,
+    sourceX, sourceY, sourceW, sourceH,
+    -sourceW / 2, -sourceH / 2, sourceW, sourceH
+  );
+
+  if(Number(vignette) > 0){
+    const gradient = ctx.createRadialGradient(
+      canvas.width / 2,
+      canvas.height / 2,
+      Math.min(canvas.width, canvas.height) * 0.25,
+      canvas.width / 2,
+      canvas.height / 2,
+      Math.max(canvas.width, canvas.height) * 0.7
+    );
+    gradient.addColorStop(0, "rgba(0,0,0,0)");
+    gradient.addColorStop(1, "rgba(0,0,0," + (Number(vignette) / 100) + ")");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 
   const link = document.createElement("a");
   link.download = "CaptionAI-Edited.jpg";
@@ -1855,10 +1973,30 @@ function applyPhotoFilters(){
   const img = document.getElementById("editorImage");
   const brightness = document.getElementById("brightnessControl").value;
   const contrast = document.getElementById("contrastControl").value;
+  const saturation = document.getElementById("saturationControl").value;
+  const blur = document.getElementById("blurControl").value;
+  const vignette = document.getElementById("vignetteControl").value;
 
   if(img){
+    const crop = Number(document.getElementById("cropControl").value);
+    const inset = (100 - crop) / 2;
+
+    let filterEffect = "";
+
+    if(editorFilter === "warm"){
+      filterEffect = "sepia(25%) saturate(125%)";
+    } else if(editorFilter === "cool"){
+      filterEffect = "saturate(90%) hue-rotate(15deg)";
+    } else if(editorFilter === "bw"){
+      filterEffect = "grayscale(100%)";
+    } else if(editorFilter === "vintage"){
+      filterEffect = "sepia(35%) saturate(85%) contrast(105%)";
+    }
+
     img.style.filter =
-      "brightness(" + brightness + "%) contrast(" + contrast + "%)";
+      "brightness(" + brightness + "%) contrast(" + contrast + "%) saturate(" + saturation + "%) blur(" + blur + "px) " + filterEffect;
+    img.style.clipPath =
+      "inset(" + inset + "% " + inset + "% " + inset + "% " + inset + "%)";
   }
 }
 
