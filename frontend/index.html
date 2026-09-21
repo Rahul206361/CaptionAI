@@ -429,6 +429,7 @@ body.dark-mode textarea::placeholder{
       <input id="brightnessControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
       <label style="font-weight:700;display:block;margin-top:14px;">🎨 Contrast</label>
       <input id="contrastControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <button onclick="saveEditedPhoto()" style="margin-top:16px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">💾 Save Edited Photo</button>
     </div>
     <div id="editorPlaceholder" style="padding:50px 10px;opacity:.7;">📸 Select a photo to start editing</div>
   </div>
@@ -1821,6 +1822,33 @@ function showPhotoEditor(url){
   document.getElementById("brightnessControl").value = 100;
   document.getElementById("contrastControl").value = 100;
   img.style.filter = "none";
+}
+
+function saveEditedPhoto(){
+  const img = document.getElementById("editorImage");
+  if(!img || !img.src || !img.naturalWidth){
+    toast("Please select a photo first");
+    return;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  const ctx = canvas.getContext("2d");
+  const brightness = document.getElementById("brightnessControl").value;
+  const contrast = document.getElementById("contrastControl").value;
+
+  ctx.filter =
+    "brightness(" + brightness + "%) contrast(" + contrast + "%)";
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const link = document.createElement("a");
+  link.download = "CaptionAI-Edited.jpg";
+  link.href = canvas.toDataURL("image/jpeg", 0.92);
+  link.click();
+
+  toast("Edited photo saved");
 }
 
 function applyPhotoFilters(){
