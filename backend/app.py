@@ -38,8 +38,6 @@ def send_email(to_email, subject, text):
         )
 
         if response.status_code == 200:
-            print("RESEND_STATUS:", response.status_code, flush=True)
-            print("RESEND_RESPONSE:", response.text, flush=True)
             return True, response.json()
 
         return False, response.text
@@ -173,7 +171,6 @@ def resend_verification():
         "SELECT id, email, email_verified FROM users WHERE email = ?",
         (email,)
     ).fetchone()
-    print("RESEND_USER:", dict(user) if user else None, flush=True)
 
     if not user:
         conn.close()

@@ -331,6 +331,12 @@ body.dark-mode textarea::placeholder{
       <div class="card-sub">Relevant & trending hashtags</div>
     </div>
 
+    <div class="card" onclick="openPhotoEditor()">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">Photo Editing</div>
+      <div class="card-sub">Edit, enhance & style your photos</div>
+    </div>
+
   </div>
 
   
@@ -413,6 +419,20 @@ body.dark-mode textarea::placeholder{
   </div>
 
 
+
+<section id="photoEditorPage" style="display:none;padding:20px 0 100px;">
+  <div class="section-title">🎨 Photo Editor</div>
+  <div class="card" style="text-align:center;">
+    <img id="editorImage" style="max-width:100%;max-height:320px;border-radius:14px;display:none;">
+    <div id="editorControls" style="display:none;margin-top:15px;text-align:left;">
+      <label style="font-weight:700;">☀️ Brightness</label>
+      <input id="brightnessControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+      <label style="font-weight:700;display:block;margin-top:14px;">🎨 Contrast</label>
+      <input id="contrastControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
+    </div>
+    <div id="editorPlaceholder" style="padding:50px 10px;opacity:.7;">📸 Select a photo to start editing</div>
+  </div>
+</section>
 
 </main>
 
@@ -509,6 +529,9 @@ body.dark-mode textarea::placeholder{
     <div id="profileEmail" style="opacity:.65;margin-top:5px;">✨ AI Content Creator</div>
     <button onclick="showEditProfile()" style="margin-top:14px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">
       ✏️ Edit Profile
+    </button>
+    <button onclick="shareApp()" style="margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">
+      📤 Share CaptionAI
     </button>
   </div>
 
@@ -1767,6 +1790,50 @@ function updateAccountCard(){
 }
 
 document.addEventListener("DOMContentLoaded", updateAccountCard);
+
+function openPhotoEditor(){
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = function(){
+    if(input.files && input.files[0]){
+      const url = URL.createObjectURL(input.files[0]);
+      showPhotoEditor(url);
+    }
+  };
+  input.click();
+}
+
+function showPhotoEditor(url){
+  document.querySelector("main").style.display = "block";
+  document.getElementById("historyPage").style.display = "none";
+  document.getElementById("profilePage").style.display = "none";
+  document.getElementById("favoritesPage").style.display = "none";
+  document.getElementById("photoEditorPage").style.display = "block";
+
+  const img = document.getElementById("editorImage");
+  img.src = url;
+  img.style.display = "block";
+
+  document.getElementById("editorPlaceholder").style.display = "none";
+  document.getElementById("editorControls").style.display = "block";
+
+  document.getElementById("brightnessControl").value = 100;
+  document.getElementById("contrastControl").value = 100;
+  img.style.filter = "none";
+}
+
+function applyPhotoFilters(){
+  const img = document.getElementById("editorImage");
+  const brightness = document.getElementById("brightnessControl").value;
+  const contrast = document.getElementById("contrastControl").value;
+
+  if(img){
+    img.style.filter =
+      "brightness(" + brightness + "%) contrast(" + contrast + "%)";
+  }
+}
+
 </script>
 
 </body>
