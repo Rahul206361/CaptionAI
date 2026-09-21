@@ -275,6 +275,424 @@ body.dark-mode textarea::placeholder{
 }
 </style>
 
+
+<style id="captionai-photo-editor-css">
+.photo-editor-shell{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+}
+
+.photo-editor-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 16px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:inherit;
+  border-bottom:1px solid rgba(128,128,128,.18);
+}
+
+.editor-back-btn,
+.editor-done-btn{
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.editor-back-btn{
+  font-size:26px;
+  line-height:1;
+}
+
+.editor-done-btn{
+  font-size:14px;
+}
+
+.editor-title{
+  font-size:18px;
+  font-weight:900;
+  text-align:center;
+}
+
+.editor-subtitle{
+  font-size:11px;
+  opacity:.6;
+  text-align:center;
+  margin-top:2px;
+}
+
+.photo-editor-header > div{
+  flex:1;
+}
+
+.editor-start-panel{
+  margin:24px 16px;
+  padding:48px 22px;
+  border-radius:22px;
+  text-align:center;
+  border:1px solid rgba(128,128,128,.2);
+}
+
+.editor-upload-icon{
+  font-size:56px;
+  margin-bottom:12px;
+}
+
+.editor-start-panel h2{
+  margin:0 0 8px;
+  font-size:24px;
+}
+
+.editor-start-panel p{
+  margin:0 auto 24px;
+  opacity:.65;
+  font-size:14px;
+  max-width:300px;
+}
+
+.editor-primary-btn,
+.editor-secondary-btn{
+  width:100%;
+  max-width:340px;
+  display:block;
+  margin:10px auto;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.editor-secondary-btn{
+  opacity:.9;
+}
+
+.editor-tip{
+  margin-top:18px;
+  font-size:11px;
+  opacity:.55;
+}
+
+.editor-canvas-area{
+  margin:14px 12px 0;
+  min-height:300px;
+  max-height:62vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:18px;
+  background:#111;
+}
+
+#editorImage{
+  display:block;
+  max-width:100%;
+  max-height:62vh;
+  object-fit:contain;
+  transform-origin:center center;
+  transition:filter .12s ease,transform .18s ease,clip-path .12s ease;
+}
+
+.editor-actions{
+  display:flex;
+  gap:8px;
+  padding:12px;
+  overflow-x:auto;
+}
+
+.editor-actions button{
+  flex:1;
+  min-width:90px;
+  padding:10px 8px;
+  border:0;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.editor-actions button span{
+  display:block;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.editor-tool-tabs{
+  display:flex;
+  gap:6px;
+  padding:4px 10px 12px;
+  overflow-x:auto;
+  border-bottom:1px solid rgba(128,128,128,.16);
+}
+
+.editor-tool{
+  flex:1;
+  min-width:82px;
+  border:0;
+  background:transparent;
+  padding:10px 6px;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.editor-tool span{
+  display:block;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.editor-tool.active{
+  background:rgba(128,128,128,.16);
+}
+
+.editor-panel{
+  padding:16px 14px;
+}
+
+.editor-control{
+  margin-bottom:18px;
+}
+
+.editor-control > div{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:14px;
+}
+
+.editor-control > div span{
+  min-width:42px;
+  text-align:right;
+  font-size:12px;
+  opacity:.65;
+}
+
+.editor-control input[type="range"]{
+  width:100%;
+  margin:0;
+  accent-color:currentColor;
+}
+
+.filter-grid,
+.effect-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.filter-grid button,
+.effect-grid button{
+  min-height:58px;
+  border:0;
+  border-radius:12px;
+  padding:8px 4px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.tool-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.tool-grid button{
+  min-height:64px;
+  border:0;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.tool-grid button span{
+  display:block;
+  font-size:11px;
+  margin-top:4px;
+}
+
+.editor-save-btn{
+  width:calc(100% - 28px);
+  margin:4px 14px 0;
+  padding:15px;
+  border:0;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+@media(max-width:480px){
+  .photo-editor-header{
+    padding:12px 10px;
+  }
+
+  .editor-title{
+    font-size:16px;
+  }
+
+  .filter-grid,
+  .effect-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .tool-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .editor-canvas-area{
+    min-height:260px;
+  }
+}
+</style>
+
+
+<style id="captionai-ai-editor-css">
+.editor-section-title{
+  font-size:18px;
+  font-weight:800;
+  margin:4px 0 14px;
+}
+
+.ai-tool-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.ai-tool-card{
+  border:1px solid rgba(127,127,127,.22);
+  border-radius:16px;
+  padding:16px 12px;
+  background:rgba(127,127,127,.08);
+  text-align:left;
+  cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+
+.ai-tool-card:active{
+  transform:scale(.97);
+}
+
+.ai-tool-card > span{
+  display:block;
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.ai-tool-card b{
+  display:block;
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.ai-tool-card small{
+  display:block;
+  font-size:11px;
+  line-height:1.4;
+  opacity:.68;
+}
+
+.ai-tool-status{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(127,127,127,.10);
+  font-size:13px;
+  text-align:center;
+}
+
+@media(max-width:480px){
+  .ai-tool-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .ai-tool-card{
+    padding:13px 10px;
+  }
+}
+
+/* CaptionAI Text Editor */
+#editorTextElement{
+  user-select:text;
+  -webkit-user-select:text;
+  touch-action:none;
+  white-space:pre-wrap;
+  word-break:break-word;
+  line-height:1.15;
+  box-sizing:border-box;
+}
+
+#editorTextElement:focus{
+  outline:2px solid rgba(255,255,255,.65);
+  outline-offset:3px;
+}
+
+#editorTextPanel .editor-primary-btn{
+  width:100%;
+  margin-bottom:14px;
+}
+
+#editorTextPanel .editor-control{
+  margin-top:12px;
+}
+
+#editorTextPanel select,
+#editorTextPanel input[type="color"]{
+  width:100%;
+  min-height:42px;
+  border-radius:10px;
+  border:1px solid rgba(127,127,127,.25);
+  padding:7px 10px;
+  box-sizing:border-box;
+}
+
+#editorTextPanel input[type="color"]{
+  padding:3px;
+}
+
+#editorTextPanel input[type="range"]{
+  width:100%;
+}
+
+#editorTextPanel .tool-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+#editorTextPanel .tool-grid button{
+  min-height:42px;
+  border-radius:11px;
+  border:1px solid rgba(127,127,127,.22);
+  background:rgba(127,127,127,.08);
+  font-weight:700;
+  cursor:pointer;
+}
+
+@media(max-width:480px){
+  #editorTextPanel .tool-grid{
+    gap:7px;
+  }
+
+  #editorTextPanel .tool-grid button{
+    font-size:12px;
+    min-height:40px;
+  }
+}
+
+</style>
+
 </head>
 
 <body onload="showRecentGenerations()">
@@ -420,36 +838,418 @@ body.dark-mode textarea::placeholder{
 
 
 
-<section id="photoEditorPage" style="display:none;padding:20px 0 100px;">
-  <div class="section-title">🎨 Photo Editor</div>
-  <div class="card" style="text-align:center;">
-    <img id="editorImage" style="max-width:100%;max-height:320px;border-radius:14px;display:none;">
-    <div id="editorControls" style="display:none;margin-top:15px;text-align:left;">
-      <label style="font-weight:700;">☀️ Brightness</label>
-      <input id="brightnessControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <label style="font-weight:700;display:block;margin-top:14px;">🎨 Contrast</label>
-      <input id="contrastControl" type="range" min="50" max="150" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <label style="font-weight:700;display:block;margin-top:14px;">✂️ Crop</label>
-      <input id="cropControl" type="range" min="60" max="100" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <button onclick="rotatePhoto()" style="margin-top:14px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">↻ Rotate 90°</button>
-      <label style="font-weight:700;display:block;margin-top:14px;">🌈 Saturation</label>
-      <input id="saturationControl" type="range" min="0" max="200" value="100" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <label style="font-weight:700;display:block;margin-top:14px;">🌫️ Blur</label>
-      <input id="blurControl" type="range" min="0" max="8" value="0" step="1" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <label style="font-weight:700;display:block;margin-top:14px;">🌑 Vignette</label>
-      <input id="vignetteControl" type="range" min="0" max="100" value="0" style="width:100%;margin-top:8px;" oninput="applyPhotoFilters()">
-      <label style="font-weight:700;display:block;margin-top:14px;">🎨 Filter</label>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px;">
-        <button onclick="setPhotoFilter('normal')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Normal</button>
-        <button onclick="setPhotoFilter('warm')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Warm</button>
-        <button onclick="setPhotoFilter('cool')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Cool</button>
-        <button onclick="setPhotoFilter('bw')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">B&W</button>
-        <button onclick="setPhotoFilter('vintage')" style="padding:9px;border:0;border-radius:8px;font-weight:700;cursor:pointer;">Vintage</button>
+<section id="photoEditorPage" style="display:none;padding:0 0 100px;">
+  <div class="photo-editor-shell">
+
+    <div class="photo-editor-header">
+      <button onclick="showHome()" class="editor-back-btn">‹</button>
+      <div>
+        <div class="editor-title">🎨 Photo Editor</div>
+        <div class="editor-subtitle">Create your perfect photo</div>
       </div>
-      <button onclick="resetPhotoEditor()" style="margin-top:16px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">🔄 Reset Edits</button>
-      <button onclick="saveEditedPhoto()" style="margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;">💾 Save Edited Photo</button>
+      <button onclick="saveEditedPhoto()" class="editor-done-btn">Done</button>
     </div>
-    <div id="editorPlaceholder" style="padding:50px 10px;opacity:.7;">📸 Select a photo to start editing</div>
+
+    <div id="editorStartPanel" class="editor-start-panel">
+      <div class="editor-upload-icon">📸</div>
+      <h2>Start Editing</h2>
+      <p>Select a photo from your gallery to begin.</p>
+
+      <button onclick="openEditorGallery()" class="editor-primary-btn">
+        🖼️ Gallery
+      </button>
+
+      <button onclick="openEditorCamera()" class="editor-secondary-btn">
+        📷 Camera
+      </button>
+
+      <div class="editor-tip">Your photo stays on your device.</div>
+    </div>
+
+    <div id="editorWorkspace" style="display:none;">
+
+      <div class="editor-canvas-area">
+        <img id="editorImage" alt="Selected photo">
+      </div>
+
+      <div class="editor-actions">
+        <button onclick="openEditorGallery()">🖼️<span>Gallery</span></button>
+        <button onclick="openEditorCamera()">📷<span>Camera</span></button>
+        <button onclick="resetPhotoEditor()">↺<span>Reset</span></button>
+      </div>
+
+      <div class="editor-tool-tabs">
+        <button class="editor-tool active" onclick="showEditorTool('adjust',this)">☀️<span>Adjust</span></button>
+        <button class="editor-tool" onclick="showEditorTool('filters',this)">🎨<span>Filters</span></button>
+        <button class="editor-tool" onclick="showEditorTool('effects',this)">✨<span>Effects</span></button>
+        <button class="editor-tool" onclick="showEditorTool('tools',this)">🛠️<span>Tools</span></button>
+        <button class="editor-tool" onclick="showEditorTool('ai',this)">🤖<span>AI</span></button>
+        <button class="editor-tool" onclick="showEditorTool('text',this)">📝<span>Text</span></button>
+        <button class="editor-tool" onclick="showEditorTool('creative',this)">🎨<span>Creative</span></button>
+        <button class="editor-tool" onclick="showEditorTool('crop',this)">✂️<span>Crop</span></button>
+        <button class="editor-tool" onclick="showEditorTool('transform',this)">🔄<span>Transform</span></button>
+        <button class="editor-tool" onclick="showEditorTool('controls',this)">🎛️<span>Controls</span></button>
+      </div>
+
+      <div id="editorToolPanel">
+
+        <div id="editorAIPanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">🤖 AI Photo Tools</div>
+
+          <div class="ai-tool-grid">
+            <button class="ai-tool-card" onclick="aiEnhancePhoto()">
+              <span>✨</span>
+              <b>AI Enhance</b>
+              <small>Improve overall photo quality</small>
+            </button>
+
+            <button class="ai-tool-card" onclick="aiRetouchPhoto()">
+              <span>🧑</span>
+              <b>AI Retouch</b>
+              <small>Enhance face and portrait</small>
+            </button>
+
+            <button class="ai-tool-card" onclick="removePhotoBackground()">
+              <span>🪄</span>
+              <b>Remove Background</b>
+              <small>Separate subject from background</small>
+            </button>
+
+            <button class="ai-tool-card" onclick="removePhotoObject()">
+              <span>🧹</span>
+              <b>Remove Object</b>
+              <small>Remove unwanted objects</small>
+            </button>
+          </div>
+
+          <div id="aiToolStatus" class="ai-tool-status" style="display:none;"></div>
+        </div>
+
+        <div id="editorTextPanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">📝 Text</div>
+
+          <button class="editor-primary-btn" onclick="addEditorText()">
+            ➕ Add Text
+          </button>
+
+          <div class="editor-control">
+            <div><b>🔤 Font</b></div>
+            <select id="editorFontControl" onchange="updateEditorText()">
+              <option value="Arial">Arial</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Trebuchet MS">Trebuchet MS</option>
+            </select>
+          </div>
+
+          <div class="editor-control">
+            <div><b>🔠 Size</b><span id="editorTextSizeValue">32</span></div>
+            <input id="editorTextSizeControl" type="range" min="12" max="96" value="32" oninput="updateEditorText()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🎨 Color</b></div>
+            <input id="editorTextColorControl" type="color" value="#ffffff" onchange="updateEditorText()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>↔️ Alignment</b></div>
+            <div class="tool-grid">
+              <button onclick="setEditorTextAlign('left')">⬅️ Left</button>
+              <button onclick="setEditorTextAlign('center')">↔️ Center</button>
+              <button onclick="setEditorTextAlign('right')">➡️ Right</button>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <button onclick="toggleEditorTextBold()">𝗕 Bold</button>
+            <button onclick="toggleEditorTextItalic()">𝘐 Italic</button>
+          </div>
+
+          <div class="editor-control">
+            <div><b>📍 Text Position</b></div>
+            <div class="tool-grid">
+              <button onclick="setEditorTextPosition('top')">⬆️ Top</button>
+              <button onclick="setEditorTextPosition('center')">⏺️ Center</button>
+              <button onclick="setEditorTextPosition('bottom')">⬇️ Bottom</button>
+            </div>
+          </div>
+
+          <div class="editor-control">
+            <div><b>💧 Opacity</b><span id="editorTextOpacityValue">100</span></div>
+            <input id="editorTextOpacityControl" type="range" min="10" max="100" value="100" oninput="updateEditorText()">
+          </div>
+        </div>
+
+
+        <div id="editorCreativePanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">🎨 Creative</div>
+
+          <div class="editor-control">
+            <div><b>🏷️ Stickers</b></div>
+            <div class="tool-grid">
+              <button onclick="addEditorSticker('❤️')">❤️ Love</button>
+              <button onclick="addEditorSticker('✨')">✨ Sparkle</button>
+              <button onclick="addEditorSticker('🔥')">🔥 Fire</button>
+              <button onclick="addEditorSticker('⭐')">⭐ Star</button>
+              <button onclick="addEditorSticker('😍')">😍 Emoji</button>
+              <button onclick="addEditorSticker('🌸')">🌸 Flower</button>
+            </div>
+          </div>
+
+          <div class="editor-control">
+            <div><b>📏 Sticker Size</b><span id="editorStickerSizeValue">52</span></div>
+            <input id="editorStickerSizeControl" type="range" min="20" max="140" value="52" oninput="updateEditorStickerSize()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>💧 Sticker Opacity</b><span id="editorStickerOpacityValue">100</span></div>
+            <input id="editorStickerOpacityControl" type="range" min="10" max="100" value="100" oninput="updateEditorStickerOpacity()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🔄 Sticker Rotation</b><span id="editorStickerRotationValue">0°</span></div>
+            <input id="editorStickerRotationControl" type="range" min="-180" max="180" value="0" oninput="updateEditorStickerRotation()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🖼️ Frames</b></div>
+            <div class="tool-grid">
+              <button onclick="setEditorFrame('none')">None</button>
+              <button onclick="setEditorFrame('simple')">Simple</button>
+              <button onclick="setEditorFrame('double')">Double</button>
+              <button onclick="setEditorFrame('rounded')">Rounded</button>
+              <button onclick="setEditorFrame('shadow')">Shadow</button>
+              <button onclick="setEditorFrame('polaroid')">Polaroid</button>
+            </div>
+          </div>
+
+          <div class="editor-control">
+            <div><b>▫️ Borders</b></div>
+            <div class="tool-grid">
+              <button onclick="setEditorBorder('none')">None</button>
+              <button onclick="setEditorBorder('thin')">Thin</button>
+              <button onclick="setEditorBorder('medium')">Medium</button>
+              <button onclick="setEditorBorder('bold')">Bold</button>
+            </div>
+          </div>
+
+          <div class="editor-control">
+            <div><b>🎨 More Filters</b></div>
+            <div class="tool-grid">
+              <button onclick="setPhotoFilter('bright')">☀️ Bright</button>
+              <button onclick="setPhotoFilter('matte')">🌫️ Matte</button>
+              <button onclick="setPhotoFilter('fade')">🌁 Fade</button>
+              <button onclick="setPhotoFilter('vivid')">🌈 Vivid</button>
+              <button onclick="setPhotoFilter('golden')">🌅 Golden</button>
+              <button onclick="setPhotoFilter('mono')">⚫ Mono</button>
+            </div>
+          </div>
+
+          <div class="editor-control">
+            <div><b>✨ More Effects</b></div>
+            <div class="tool-grid">
+              <button onclick="setPhotoEffect('glow')">💫 Glow</button>
+              <button onclick="setPhotoEffect('soft')">☁️ Soft</button>
+              <button onclick="setPhotoEffect('dramatic')">🎬 Dramatic</button>
+              <button onclick="setPhotoEffect('noir')">🖤 Noir</button>
+              <button onclick="setPhotoEffect('sunset')">🌇 Sunset</button>
+              <button onclick="setPhotoEffect('dreamy')">💭 Dreamy</button>
+            </div>
+          </div>
+
+          <div id="editorCreativeStatus" class="ai-tool-status" style="display:none;"></div>
+        </div>
+
+
+        <div id="editorCropPanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">✂️ Crop</div>
+
+          <div class="tool-grid">
+            <button onclick="setEditorCropRatio('free')">Free</button>
+            <button onclick="setEditorCropRatio('1:1')">1:1</button>
+            <button onclick="setEditorCropRatio('4:5')">4:5</button>
+            <button onclick="setEditorCropRatio('9:16')">9:16</button>
+            <button onclick="setEditorCropRatio('16:9')">16:9</button>
+            <button onclick="setEditorCropRatio('3:4')">3:4</button>
+          </div>
+
+          <div class="editor-control">
+            <div><b>📐 Crop ratio</b></div>
+            <div id="editorCropRatioValue">Free</div>
+          </div>
+
+          <button class="editor-primary-btn" onclick="applyEditorCrop()">
+            ✓ Apply Crop
+          </button>
+        </div>
+
+
+        <div id="editorTransformPanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">🔄 Transform</div>
+
+          <div class="tool-grid">
+            <button onclick="rotatePhoto()">↻ Rotate</button>
+            <button onclick="flipPhoto('horizontal')">↔️ Flip H</button>
+            <button onclick="flipPhoto('vertical')">↕️ Flip V</button>
+          </div>
+
+          <div class="editor-control">
+            <div><b>🔍 Zoom</b><span id="editorZoomValue">100</span></div>
+            <input id="editorZoomControl" type="range"
+                   min="50" max="200" value="100"
+                   oninput="updateEditorTransform()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>↔️ Pan Horizontal</b><span id="editorPanXValue">0</span></div>
+            <input id="editorPanXControl" type="range"
+                   min="-100" max="100" value="0"
+                   oninput="updateEditorTransform()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>↕️ Pan Vertical</b><span id="editorPanYValue">0</span></div>
+            <input id="editorPanYControl" type="range"
+                   min="-100" max="100" value="0"
+                   oninput="updateEditorTransform()">
+          </div>
+
+          <button class="editor-secondary-btn" onclick="resetEditorTransform()">
+            ↺ Reset Transform
+          </button>
+        </div>
+
+
+        <div id="editorControlsPanel" class="editor-panel" style="display:none;">
+          <div class="editor-section-title">🎛️ Editor Controls</div>
+
+          <div class="tool-grid">
+            <button onclick="editorUndo()">↶ Undo</button>
+            <button onclick="editorRedo()">↷ Redo</button>
+            <button onclick="resetPhotoEditor()">🔄 Reset</button>
+            <button onclick="toggleBeforeAfter()">👁️ Before/After</button>
+          </div>
+
+          <div class="editor-control">
+            <button onclick="saveEditedPhoto()" class="editor-save-btn">
+              💾 Save Edited Photo
+            </button>
+          </div>
+
+          <div class="editor-control">
+            <button onclick="shareEditedPhoto()" class="editor-primary-btn">
+              📤 Share Edited Photo
+            </button>
+          </div>
+
+          <div id="editorControlStatus" class="ai-tool-status" style="display:none;"></div>
+        </div>
+
+        <div id="editorAdjustPanel" class="editor-panel">
+          <div class="editor-control">
+            <div><b>☀️ Brightness</b><span id="brightnessValue">100</span></div>
+            <input id="brightnessControl" type="range" min="50" max="150" value="100" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🎨 Contrast</b><span id="contrastValue">100</span></div>
+            <input id="contrastControl" type="range" min="50" max="150" value="100" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🌈 Saturation</b><span id="saturationValue">100</span></div>
+            <input id="saturationControl" type="range" min="0" max="200" value="100" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🌡️ Temperature</b><span id="temperatureValue">0</span></div>
+            <input id="temperatureControl" type="range" min="-50" max="50" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>💡 Exposure</b><span id="exposureValue">0</span></div>
+            <input id="exposureControl" type="range" min="-100" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🎨 Tint</b><span id="tintValue">0</span></div>
+            <input id="tintControl" type="range" min="-100" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🔆 Highlights</b><span id="highlightsValue">0</span></div>
+            <input id="highlightsControl" type="range" min="-100" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🌑 Shadows</b><span id="shadowsValue">0</span></div>
+            <input id="shadowsControl" type="range" min="-100" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>📈 Curves</b></div>
+            <input id="curvesControl" type="range" min="-100" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🌫️ Blur</b><span id="blurValue">0</span></div>
+            <input id="blurControl" type="range" min="0" max="8" value="0" step="1" oninput="applyPhotoFilters()">
+          </div>
+
+          <div class="editor-control">
+            <div><b>🌑 Vignette</b><span id="vignetteValue">0</span></div>
+            <input id="vignetteControl" type="range" min="0" max="100" value="0" oninput="applyPhotoFilters()">
+          </div>
+        </div>
+
+        <div id="editorFiltersPanel" class="editor-panel" style="display:none;">
+          <div class="filter-grid">
+            <button onclick="setPhotoFilter('normal')">Normal</button>
+            <button onclick="setPhotoFilter('warm')">Warm</button>
+            <button onclick="setPhotoFilter('cool')">Cool</button>
+            <button onclick="setPhotoFilter('bw')">B&W</button>
+            <button onclick="setPhotoFilter('vintage')">Vintage</button>
+            <button onclick="setPhotoFilter('cinematic')">Cinematic</button>
+            <button onclick="setPhotoFilter('portrait')">Portrait</button>
+            <button onclick="setPhotoFilter('hdr')">HDR</button>
+          </div>
+        </div>
+
+        <div id="editorEffectsPanel" class="editor-panel" style="display:none;">
+          <div class="effect-grid">
+            <button onclick="setPhotoEffect('none')">✨ None</button>
+            <button onclick="setPhotoEffect('fade')">🌫️ Fade</button>
+            <button onclick="setPhotoEffect('dramatic')">🔥 Dramatic</button>
+            <button onclick="setPhotoEffect('dreamy')">☁️ Dreamy</button>
+            <button onclick="setPhotoEffect('noir')">🖤 Noir</button>
+            <button onclick="setPhotoEffect('sunset')">🌅 Sunset</button>
+          </div>
+        </div>
+
+        <div id="editorToolsPanel" class="editor-panel" style="display:none;">
+          <div class="tool-grid">
+            <button onclick="rotatePhoto()">↻<span>Rotate</span></button>
+            <button onclick="setEditorCrop(100)">✂️<span>Crop</span></button>
+            <button onclick="flipPhoto('horizontal')">↔️<span>Flip H</span></button>
+            <button onclick="flipPhoto('vertical')">↕️<span>Flip V</span></button>
+          </div>
+
+          <div class="editor-control">
+            <div><b>✂️ Crop</b><span id="cropValue">100</span></div>
+            <input id="cropControl" type="range" min="60" max="100" value="100" oninput="applyPhotoFilters()">
+          </div>
+        </div>
+
+      </div>
+
+      <button onclick="saveEditedPhoto()" class="editor-save-btn">
+        💾 Save Edited Photo
+      </button>
+
+    </div>
   </div>
 </section>
 
@@ -1810,7 +2610,967 @@ function updateAccountCard(){
 
 document.addEventListener("DOMContentLoaded", updateAccountCard);
 
+
+
+function getEditorImage(){
+  const img = document.getElementById("editorImage");
+
+  if(!img || !img.src || !img.naturalWidth){
+    toast("Please select a photo first");
+    return null;
+  }
+
+  return img;
+}
+
+function showAIStatus(message){
+  const box = document.getElementById("aiToolStatus");
+
+  if(!box) return;
+
+  box.textContent = message;
+  box.style.display = "block";
+}
+
+function aiEnhancePhoto(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  showAIStatus("✨ AI Enhance applied");
+
+  setEditorValue("brightnessControl",108);
+  setEditorValue("contrastControl",112);
+  setEditorValue("saturationControl",108);
+
+  applyPhotoFilters();
+  toast("AI Enhance applied");
+}
+
+function aiRetouchPhoto(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  showAIStatus("🧑 AI Retouch applied");
+
+  setEditorValue("brightnessControl",105);
+  setEditorValue("contrastControl",103);
+  setEditorValue("saturationControl",106);
+  setEditorValue("blurControl",0);
+
+  editorEffect = "dreamy";
+
+  applyPhotoFilters();
+  toast("AI Retouch applied");
+}
+
+function removePhotoBackground(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  showAIStatus("🪄 Background removal is ready for AI processing");
+
+  toast("Remove Background selected");
+}
+
+function removePhotoObject(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  showAIStatus("🧹 Object removal is ready for AI processing");
+
+  toast("Remove Object selected");
+}
+
+
+
+
+
+
+let editorHistory = [];
+let editorHistoryIndex = -1;
+let editorBeforeAfter = false;
+let editorOriginalSrc = "";
+
+function captureEditorState(){
+  const img = document.getElementById("editorImage");
+  if(!img || !img.src) return;
+
+  const state = {
+    src: img.src,
+    filter: img.style.filter || "",
+    transform: img.style.transform || "",
+    border: img.style.border || "",
+    frameStyle: editorFrameStyle,
+    zoom: editorZoom,
+    panX: editorPanX,
+    panY: editorPanY
+  };
+
+  editorHistory = editorHistory.slice(0, editorHistoryIndex + 1);
+  editorHistory.push(state);
+
+  if(editorHistory.length > 30){
+    editorHistory.shift();
+  }else{
+    editorHistoryIndex++;
+  }
+}
+
+function restoreEditorState(state){
+  const img = document.getElementById("editorImage");
+  if(!img || !state) return;
+
+  img.src = state.src;
+  img.style.filter = state.filter;
+  img.style.transform = state.transform;
+  img.style.border = state.border;
+
+  editorFrameStyle = state.frameStyle || "none";
+  editorZoom = state.zoom || 100;
+  editorPanX = state.panX || 0;
+  editorPanY = state.panY || 0;
+}
+
+function editorUndo(){
+  if(editorHistoryIndex <= 0){
+    toast("Nothing to undo");
+    return;
+  }
+
+  editorHistoryIndex--;
+  restoreEditorState(editorHistory[editorHistoryIndex]);
+  toast("Undo");
+}
+
+function editorRedo(){
+  if(editorHistoryIndex >= editorHistory.length - 1){
+    toast("Nothing to redo");
+    return;
+  }
+
+  editorHistoryIndex++;
+  restoreEditorState(editorHistory[editorHistoryIndex]);
+  toast("Redo");
+}
+
+function toggleBeforeAfter(){
+  const img = document.getElementById("editorImage");
+  if(!img) return;
+
+  if(!editorOriginalSrc){
+    toast("Original photo not available");
+    return;
+  }
+
+  editorBeforeAfter = !editorBeforeAfter;
+
+  if(editorBeforeAfter){
+    img.dataset.editedSrc = img.src;
+    img.src = editorOriginalSrc;
+    toast("Showing original");
+  }else{
+    img.src = img.dataset.editedSrc || img.src;
+    toast("Showing edited");
+  }
+}
+
+async function shareEditedPhoto(){
+  const img = document.getElementById("editorImage");
+  if(!img || !img.src){
+    toast("Please select a photo first");
+    return;
+  }
+
+  try{
+    if(!navigator.share){
+      toast("Share is not available on this device");
+      return;
+    }
+
+    const response = await fetch(img.src);
+    const blob = await response.blob();
+
+    const file = new File(
+      [blob],
+      "CaptionAI-Edited-Photo.jpg",
+      {type: blob.type || "image/jpeg"}
+    );
+
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({
+        title:"CaptionAI Edited Photo",
+        text:"Edited with CaptionAI",
+        files:[file]
+      });
+    }else{
+      await navigator.share({
+        title:"CaptionAI Edited Photo",
+        text:"Edited with CaptionAI"
+      });
+    }
+  }catch(error){
+    if(error && error.name !== "AbortError"){
+      toast("Unable to share photo");
+    }
+  }
+}
+
+let editorZoom = 100;
+let editorPanX = 0;
+let editorPanY = 0;
+
+function updateEditorTransform(){
+  const img = document.getElementById("editorImage");
+  if(!img) return;
+
+  const zoomControl = document.getElementById("editorZoomControl");
+  const panXControl = document.getElementById("editorPanXControl");
+  const panYControl = document.getElementById("editorPanYControl");
+
+  editorZoom = zoomControl ? Number(zoomControl.value) : 100;
+  editorPanX = panXControl ? Number(panXControl.value) : 0;
+  editorPanY = panYControl ? Number(panYControl.value) : 0;
+
+  const zoomValue = document.getElementById("editorZoomValue");
+  const panXValue = document.getElementById("editorPanXValue");
+  const panYValue = document.getElementById("editorPanYValue");
+
+  if(zoomValue) zoomValue.textContent = editorZoom;
+  if(panXValue) panXValue.textContent = editorPanX;
+  if(panYValue) panYValue.textContent = editorPanY;
+
+  img.style.transform =
+    "translate(" + editorPanX + "px," + editorPanY + "px) " +
+    "scale(" + (editorZoom / 100) + ") " +
+    "rotate(" + editorRotation + "deg)";
+
+  img.style.transformOrigin = "center center";
+}
+
+function resetEditorTransform(){
+  editorZoom = 100;
+  editorPanX = 0;
+  editorPanY = 0;
+
+  const zoom = document.getElementById("editorZoomControl");
+  const panX = document.getElementById("editorPanXControl");
+  const panY = document.getElementById("editorPanYControl");
+
+  if(zoom) zoom.value = 100;
+  if(panX) panX.value = 0;
+  if(panY) panY.value = 0;
+
+  updateEditorTransform();
+  toast("Transform reset");
+}
+
+let editorCropRatio = "free";
+
+function setEditorCropRatio(ratio){
+  editorCropRatio = ratio;
+
+  const value = document.getElementById("editorCropRatioValue");
+  if(value){
+    value.textContent = ratio === "free" ? "Free" : ratio;
+  }
+
+  if(ratio === "free"){
+    startFreeCropMode();
+  }else{
+    removeFreeCropMode();
+  }
+
+  toast("Crop ratio: " + ratio);
+}
+
+let editorFreeCropBox = null;
+
+function startFreeCropMode(){
+  const area = document.querySelector(".editor-canvas-area");
+  const img = getEditorImage();
+  if(!area || !img) return;
+
+  removeFreeCropMode();
+
+  area.style.position = "relative";
+
+  const box = document.createElement("div");
+  box.id = "editorFreeCropBox";
+  box.style.position = "absolute";
+  box.style.left = "10%";
+  box.style.top = "10%";
+  box.style.width = "80%";
+  box.style.height = "80%";
+  box.style.border = "2px solid #fff";
+  box.style.boxSizing = "border-box";
+  box.style.zIndex = "30";
+  box.style.cursor = "move";
+  box.style.touchAction = "none";
+  box.style.background = "rgba(0,0,0,.12)";
+
+  const label = document.createElement("div");
+  label.textContent = "FREE CROP";
+  label.style.position = "absolute";
+  label.style.top = "6px";
+  label.style.left = "6px";
+  label.style.padding = "4px 7px";
+  label.style.borderRadius = "6px";
+  label.style.background = "rgba(0,0,0,.65)";
+  label.style.color = "#fff";
+  label.style.fontSize = "10px";
+  label.style.fontWeight = "700";
+  box.appendChild(label);
+
+  area.appendChild(box);
+  editorFreeCropBox = box;
+
+  let startX = 0;
+  let startY = 0;
+  let startLeft = 0;
+  let startTop = 0;
+
+  box.addEventListener("pointerdown",function(e){
+    e.preventDefault();
+    box.setPointerCapture(e.pointerId);
+
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = box.offsetLeft;
+    startTop = box.offsetTop;
+  });
+
+  box.addEventListener("pointermove",function(e){
+    if(!box.hasPointerCapture(e.pointerId)) return;
+
+    const maxLeft = area.clientWidth - box.offsetWidth;
+    const maxTop = area.clientHeight - box.offsetHeight;
+
+    const nextLeft = Math.max(0,Math.min(
+      maxLeft,
+      startLeft + (e.clientX - startX)
+    ));
+
+    const nextTop = Math.max(0,Math.min(
+      maxTop,
+      startTop + (e.clientY - startY)
+    ));
+
+    box.style.left = nextLeft + "px";
+    box.style.top = nextTop + "px";
+  });
+
+  box.addEventListener("pointerup",function(e){
+    if(box.hasPointerCapture(e.pointerId)){
+      box.releasePointerCapture(e.pointerId);
+    }
+  });
+
+  toast("Drag the crop box, then tap Apply Crop");
+}
+
+function removeFreeCropMode(){
+  const box = document.getElementById("editorFreeCropBox");
+  if(box) box.remove();
+  editorFreeCropBox = null;
+}
+
+function applyEditorCrop(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  if(editorCropRatio === "free"){
+    const box = document.getElementById("editorFreeCropBox");
+    const area = document.querySelector(".editor-canvas-area");
+
+    if(!box || !area){
+      toast("Set a free crop area first");
+      return;
+    }
+
+    const areaRect = area.getBoundingClientRect();
+    const imgRect = img.getBoundingClientRect();
+
+    if(!areaRect.width || !areaRect.height || !imgRect.width || !imgRect.height){
+      toast("Unable to crop photo");
+      return;
+    }
+
+    const boxRect = box.getBoundingClientRect();
+
+    const scaleX = img.naturalWidth / imgRect.width;
+    const scaleY = img.naturalHeight / imgRect.height;
+
+    const left = Math.max(0,boxRect.left - imgRect.left);
+    const top = Math.max(0,boxRect.top - imgRect.top);
+    const cropWidth = Math.min(
+      imgRect.width - left,
+      boxRect.width
+    );
+    const cropHeight = Math.min(
+      imgRect.height - top,
+      boxRect.height
+    );
+
+    if(cropWidth < 10 || cropHeight < 10){
+      toast("Crop area is too small");
+      return;
+    }
+
+    const sx = Math.round(left * scaleX);
+    const sy = Math.round(top * scaleY);
+    const sw = Math.round(cropWidth * scaleX);
+    const sh = Math.round(cropHeight * scaleY);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1,sw);
+    canvas.height = Math.max(1,sh);
+
+    const ctx = canvas.getContext("2d");
+
+    if(!ctx){
+      toast("Crop failed");
+      return;
+    }
+
+    ctx.drawImage(
+      img,
+      sx,
+      sy,
+      sw,
+      sh,
+      0,
+      0,
+      sw,
+      sh
+    );
+
+    img.src = canvas.toDataURL("image/jpeg",0.95);
+    removeFreeCropMode();
+
+    toast("Free crop applied");
+    return;
+  }
+
+  const parts = editorCropRatio.split(":");
+  const targetRatio = Number(parts[0]) / Number(parts[1]);
+
+  if(!targetRatio || !img.naturalWidth || !img.naturalHeight){
+    toast("Unable to crop photo");
+    return;
+  }
+
+  const width = img.naturalWidth;
+  const height = img.naturalHeight;
+  const currentRatio = width / height;
+
+  let cropWidth = width;
+  let cropHeight = height;
+
+  if(currentRatio > targetRatio){
+    cropWidth = Math.round(height * targetRatio);
+  }else{
+    cropHeight = Math.round(width / targetRatio);
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = cropWidth;
+  canvas.height = cropHeight;
+
+  const ctx = canvas.getContext("2d");
+
+  if(!ctx){
+    toast("Crop failed");
+    return;
+  }
+
+  const sx = Math.round((width - cropWidth) / 2);
+  const sy = Math.round((height - cropHeight) / 2);
+
+  ctx.drawImage(
+    img,
+    sx,
+    sy,
+    cropWidth,
+    cropHeight,
+    0,
+    0,
+    cropWidth,
+    cropHeight
+  );
+
+  img.src = canvas.toDataURL("image/jpeg", 0.95);
+
+  toast("Crop applied: " + editorCropRatio);
+}
+
+let editorStickerElements = [];
+let editorSelectedSticker = null;
+let editorFrameStyle = "none";
+let editorBorderStyle = "none";
+
+function addEditorSticker(symbol){
+  const img = getEditorImage();
+  if(!img) return;
+
+  const canvasArea = document.querySelector(".editor-canvas-area");
+  if(!canvasArea) return;
+
+  const sticker = document.createElement("div");
+
+  sticker.textContent = symbol;
+  sticker.style.position = "absolute";
+  sticker.style.left = "50%";
+  sticker.style.top = "50%";
+  sticker.style.transform = "translate(-50%,-50%)";
+  sticker.style.fontSize = "52px";
+  sticker.style.zIndex = "21";
+  sticker.style.cursor = "move";
+  sticker.style.userSelect = "none";
+
+  sticker.addEventListener("click",function(e){
+    e.stopPropagation();
+    editorSelectedSticker = sticker;
+
+    const sizeControl = document.getElementById("editorStickerSizeControl");
+    const sizeValue = document.getElementById("editorStickerSizeValue");
+    const currentSize = parseInt(sticker.style.fontSize,10) || 52;
+
+    if(sizeControl) sizeControl.value = currentSize;
+    if(sizeValue) sizeValue.textContent = currentSize;
+
+    toast("Sticker selected");
+  });
+
+  canvasArea.style.position = "relative";
+  canvasArea.appendChild(sticker);
+
+  editorStickerElements.push(sticker);
+
+  let stickerStartX = 0;
+  let stickerStartY = 0;
+  let stickerStartLeft = 0;
+  let stickerStartTop = 0;
+
+  sticker.addEventListener("pointerdown",function(e){
+    e.preventDefault();
+    sticker.setPointerCapture(e.pointerId);
+
+    stickerStartX = e.clientX;
+    stickerStartY = e.clientY;
+    stickerStartLeft = sticker.offsetLeft;
+    stickerStartTop = sticker.offsetTop;
+  });
+
+  sticker.addEventListener("pointermove",function(e){
+    if(!sticker.hasPointerCapture(e.pointerId)) return;
+
+    const area = document.querySelector(".editor-canvas-area");
+    if(!area) return;
+
+    const maxLeft = area.clientWidth - sticker.offsetWidth;
+    const maxTop = area.clientHeight - sticker.offsetHeight;
+
+    const nextLeft = Math.max(0,Math.min(
+      maxLeft,
+      stickerStartLeft + (e.clientX - stickerStartX)
+    ));
+
+    const nextTop = Math.max(0,Math.min(
+      maxTop,
+      stickerStartTop + (e.clientY - stickerStartY)
+    ));
+
+    sticker.style.left = nextLeft + "px";
+    sticker.style.top = nextTop + "px";
+    sticker.style.transform = "none";
+  });
+
+  sticker.addEventListener("pointerup",function(e){
+    if(sticker.hasPointerCapture(e.pointerId)){
+      sticker.releasePointerCapture(e.pointerId);
+    }
+  });
+
+  toast("Sticker added");
+}
+
+function setEditorFrame(style){
+  const canvasArea = document.querySelector(".editor-canvas-area");
+  if(!canvasArea) return;
+
+  editorFrameStyle = style;
+
+  canvasArea.style.boxShadow = "none";
+  canvasArea.style.borderRadius = "0";
+
+  if(style === "simple"){
+    canvasArea.style.boxShadow = "inset 0 0 0 8px rgba(255,255,255,.9)";
+  }
+
+  if(style === "double"){
+    canvasArea.style.boxShadow =
+      "inset 0 0 0 5px rgba(255,255,255,.95), inset 0 0 0 11px rgba(0,0,0,.75)";
+  }
+
+  if(style === "rounded"){
+    canvasArea.style.borderRadius = "22px";
+    canvasArea.style.overflow = "hidden";
+    canvasArea.style.boxShadow = "inset 0 0 0 6px rgba(255,255,255,.9)";
+  }
+
+  if(style === "shadow"){
+    canvasArea.style.boxShadow = "0 12px 30px rgba(0,0,0,.45)";
+  }
+
+  if(style === "polaroid"){
+    canvasArea.style.background = "#ffffff";
+    canvasArea.style.padding = "10px 10px 28px";
+    canvasArea.style.boxShadow = "0 10px 25px rgba(0,0,0,.35)";
+  }
+
+  toast(style === "none" ? "Frame removed" : "Frame applied");
+}
+
+function setEditorBorder(style){
+  const img = document.getElementById("editorImage");
+  if(!img) return;
+
+  editorBorderStyle = style;
+
+  const borders = {
+    none:"none",
+    thin:"2px solid rgba(255,255,255,.9)",
+    medium:"5px solid rgba(255,255,255,.95)",
+    bold:"10px solid rgba(255,255,255,.95)"
+  };
+
+  img.style.border = borders[style] || "none";
+  img.style.boxSizing = "border-box";
+
+  toast(style === "none" ? "Border removed" : "Border applied");
+}
+
+function updateEditorStickerSize(){
+  const control = document.getElementById("editorStickerSizeControl");
+  const value = document.getElementById("editorStickerSizeValue");
+
+  const size = control ? Number(control.value) : 52;
+
+  if(value){
+    value.textContent = size;
+  }
+
+  const sticker = editorSelectedSticker ||
+    (editorStickerElements.length
+      ? editorStickerElements[editorStickerElements.length - 1]
+      : null);
+
+  if(!sticker){
+    return;
+  }
+
+  sticker.style.fontSize = size + "px";
+}
+
+function updateEditorStickerOpacity(){
+  const control = document.getElementById("editorStickerOpacityControl");
+  const value = document.getElementById("editorStickerOpacityValue");
+
+  const opacity = control ? Number(control.value) : 100;
+
+  if(value){
+    value.textContent = opacity;
+  }
+
+  const sticker = editorSelectedSticker ||
+    (editorStickerElements.length
+      ? editorStickerElements[editorStickerElements.length - 1]
+      : null);
+
+  if(!sticker){
+    return;
+  }
+
+  sticker.style.opacity = opacity / 100;
+}
+
+function updateEditorStickerRotation(){
+  const control = document.getElementById("editorStickerRotationControl");
+  const value = document.getElementById("editorStickerRotationValue");
+
+  const rotation = control ? Number(control.value) : 0;
+
+  if(value){
+    value.textContent = rotation + "°";
+  }
+
+  const sticker = editorSelectedSticker ||
+    (editorStickerElements.length
+      ? editorStickerElements[editorStickerElements.length - 1]
+      : null);
+
+  if(!sticker){
+    return;
+  }
+
+  sticker.style.transform = "rotate(" + rotation + "deg)";
+}
+
+function removeEditorStickers(){
+  editorStickerElements.forEach(function(sticker){
+    if(sticker && sticker.remove){
+      sticker.remove();
+    }
+  });
+
+  editorStickerElements = [];
+  editorSelectedSticker = null;
+
+  const sizeControl = document.getElementById("editorStickerSizeControl");
+  const sizeValue = document.getElementById("editorStickerSizeValue");
+  const rotationControl = document.getElementById("editorStickerRotationControl");
+  const rotationValue = document.getElementById("editorStickerRotationValue");
+  const opacityControl = document.getElementById("editorStickerOpacityControl");
+  const opacityValue = document.getElementById("editorStickerOpacityValue");
+
+  if(sizeControl) sizeControl.value = 52;
+  if(sizeValue) sizeValue.textContent = "52";
+  if(rotationControl) rotationControl.value = 0;
+  if(rotationValue) rotationValue.textContent = "0°";
+  if(opacityControl) opacityControl.value = 100;
+  if(opacityValue) opacityValue.textContent = "100";
+
+  toast("Stickers removed");
+}
+
+let editorTextElement = null;
+let editorTextBold = false;
+let editorTextItalic = false;
+let editorTextAlign = "center";
+
+function addEditorText(){
+  const img = getEditorImage();
+  if(!img) return;
+
+  const canvasArea = document.querySelector(".editor-canvas-area");
+  if(!canvasArea) return;
+
+  if(editorTextElement){
+    editorTextElement.remove();
+  }
+
+  const text = document.createElement("div");
+
+  text.id = "editorTextElement";
+  text.textContent = "Your Text";
+  text.contentEditable = "true";
+
+  text.style.position = "absolute";
+  text.style.left = "50%";
+  text.style.top = "50%";
+  text.style.transform = "translate(-50%,-50%)";
+  text.style.color = "#ffffff";
+  text.style.fontFamily = "Arial";
+  text.style.fontSize = "32px";
+  text.style.fontWeight = "400";
+  text.style.fontStyle = "normal";
+  text.style.textAlign = "center";
+  text.style.opacity = "1";
+  text.style.padding = "6px 12px";
+  text.style.minWidth = "80px";
+  text.style.maxWidth = "90%";
+  text.style.zIndex = "20";
+  text.style.outline = "none";
+  text.style.textShadow = "0 2px 5px rgba(0,0,0,.7)";
+  text.style.cursor = "move";
+
+  canvasArea.style.position = "relative";
+  canvasArea.appendChild(text);
+
+  editorTextElement = text;
+
+  let textStartX = 0;
+  let textStartY = 0;
+  let textStartLeft = 0;
+  let textStartTop = 0;
+
+  text.addEventListener("pointerdown",function(e){
+    e.preventDefault();
+    text.setPointerCapture(e.pointerId);
+
+    textStartX = e.clientX;
+    textStartY = e.clientY;
+    textStartLeft = text.offsetLeft;
+    textStartTop = text.offsetTop;
+  });
+
+  text.addEventListener("pointermove",function(e){
+    if(!text.hasPointerCapture(e.pointerId)) return;
+
+    const area = document.querySelector(".editor-canvas-area");
+    if(!area) return;
+
+    const maxLeft = area.clientWidth - text.offsetWidth;
+    const maxTop = area.clientHeight - text.offsetHeight;
+
+    const nextLeft = Math.max(0,Math.min(
+      maxLeft,
+      textStartLeft + (e.clientX - textStartX)
+    ));
+
+    const nextTop = Math.max(0,Math.min(
+      maxTop,
+      textStartTop + (e.clientY - textStartY)
+    ));
+
+    text.style.left = nextLeft + "px";
+    text.style.top = nextTop + "px";
+    text.style.transform = "none";
+  });
+
+  text.addEventListener("pointerup",function(e){
+    if(text.hasPointerCapture(e.pointerId)){
+      text.releasePointerCapture(e.pointerId);
+    }
+  });
+
+  text.focus();
+
+  if(window.getSelection){
+    const range = document.createRange();
+    range.selectNodeContents(text);
+    range.collapse(false);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  toast("Text added");
+}
+
+function updateEditorText(){
+  if(!editorTextElement) return;
+
+  const font = document.getElementById("editorFontControl");
+  const size = document.getElementById("editorTextSizeControl");
+  const color = document.getElementById("editorTextColorControl");
+  const opacity = document.getElementById("editorTextOpacityControl");
+  const sizeValue = document.getElementById("editorTextSizeValue");
+  const opacityValue = document.getElementById("editorTextOpacityValue");
+
+  if(font){
+    editorTextElement.style.fontFamily = font.value;
+  }
+
+  if(size){
+    editorTextElement.style.fontSize = size.value + "px";
+
+    if(sizeValue){
+      sizeValue.textContent = size.value;
+    }
+  }
+
+  if(color){
+    editorTextElement.style.color = color.value;
+  }
+
+  if(opacity){
+    editorTextElement.style.opacity = Number(opacity.value) / 100;
+
+    if(opacityValue){
+      opacityValue.textContent = opacity.value;
+    }
+  }
+
+  editorTextElement.style.fontWeight = editorTextBold ? "700" : "400";
+  editorTextElement.style.fontStyle = editorTextItalic ? "italic" : "normal";
+  editorTextElement.style.textAlign = editorTextAlign;
+}
+
+function setEditorTextPosition(position){
+  if(!editorTextElement){
+    toast("Add text first");
+    return;
+  }
+
+  const area = document.querySelector(".editor-canvas-area");
+  if(!area) return;
+
+  const centerX = Math.max(
+    0,
+    (area.clientWidth - editorTextElement.offsetWidth) / 2
+  );
+
+  let top = 0;
+
+  if(position === "top"){
+    top = 12;
+  }else if(position === "bottom"){
+    top = Math.max(
+      0,
+      area.clientHeight - editorTextElement.offsetHeight - 12
+    );
+  }else{
+    top = Math.max(
+      0,
+      (area.clientHeight - editorTextElement.offsetHeight) / 2
+    );
+  }
+
+  editorTextElement.style.left = centerX + "px";
+  editorTextElement.style.top = top + "px";
+  editorTextElement.style.transform = "none";
+
+  toast("Text position: " + position);
+}
+
+function setEditorTextAlign(align){
+  editorTextAlign = align;
+  updateEditorText();
+  toast("Text alignment changed");
+}
+
+function toggleEditorTextBold(){
+  editorTextBold = !editorTextBold;
+  updateEditorText();
+  toast(editorTextBold ? "Bold enabled" : "Bold disabled");
+}
+
+function toggleEditorTextItalic(){
+  editorTextItalic = !editorTextItalic;
+  updateEditorText();
+  toast(editorTextItalic ? "Italic enabled" : "Italic disabled");
+}
+
+function removeEditorText(){
+  if(editorTextElement){
+    editorTextElement.remove();
+    editorTextElement = null;
+    toast("Text removed");
+  }
+}
+
+let editorRotation = 0;
+let editorFilter = "normal";
+let editorEffect = "none";
+let editorFlipH = false;
+let editorFlipV = false;
+
 function openPhotoEditor(){
+  document.querySelector("main").style.display = "block";
+  document.getElementById("historyPage").style.display = "none";
+  document.getElementById("profilePage").style.display = "none";
+  document.getElementById("favoritesPage").style.display = "none";
+  document.getElementById("photoEditorPage").style.display = "block";
+
+  document.getElementById("editorStartPanel").style.display = "block";
+  document.getElementById("editorWorkspace").style.display = "none";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function openEditorGallery(){
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
@@ -1823,6 +3583,22 @@ function openPhotoEditor(){
   input.click();
 }
 
+function openEditorCamera(){
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.capture = "environment";
+
+  input.onchange = function(){
+    if(input.files && input.files[0]){
+      const url = URL.createObjectURL(input.files[0]);
+      showPhotoEditor(url);
+    }
+  };
+
+  input.click();
+}
+
 function showPhotoEditor(url){
   document.querySelector("main").style.display = "block";
   document.getElementById("historyPage").style.display = "none";
@@ -1831,81 +3607,525 @@ function showPhotoEditor(url){
   document.getElementById("photoEditorPage").style.display = "block";
 
   const img = document.getElementById("editorImage");
+
+  img.onload = function(){
+    applyPhotoFilters();
+  };
+
   img.src = url;
+  editorOriginalSrc = url;
+  editorBeforeAfter = false;
+  delete img.dataset.editedSrc;
   img.style.display = "block";
 
-  document.getElementById("editorPlaceholder").style.display = "none";
-  document.getElementById("editorControls").style.display = "block";
+  document.getElementById("editorStartPanel").style.display = "none";
+  document.getElementById("editorWorkspace").style.display = "block";
 
   editorRotation = 0;
   editorFilter = "normal";
+  editorEffect = "none";
+  editorFlipH = false;
+  editorFlipV = false;
+  editorZoom = 100;
+  editorPanX = 0;
+  editorPanY = 0;
 
-  document.getElementById("brightnessControl").value = 100;
-  document.getElementById("contrastControl").value = 100;
-  document.getElementById("cropControl").value = 100;
-  document.getElementById("saturationControl").value = 100;
-  document.getElementById("blurControl").value = 0;
-  document.getElementById("vignetteControl").value = 0;
+  setEditorValue("brightnessControl",100);
+  setEditorValue("contrastControl",100);
+  setEditorValue("saturationControl",100);
+  setEditorValue("temperatureControl",0);
+  setEditorValue("blurControl",0);
+  setEditorValue("vignetteControl",0);
+  setEditorValue("cropControl",100);
+
+  updateEditorValues();
 
   img.style.transform = "none";
   img.style.filter = "none";
   img.style.clipPath = "none";
+
+  editorHistory = [];
+  editorHistoryIndex = -1;
+  clearTimeout(editorHistoryTimer);
+  captureEditorState();
+
+  showEditorTool("adjust",document.querySelector(".editor-tool"));
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-let editorRotation = 0;
+function setEditorValue(id,value){
+  const el = document.getElementById(id);
+  if(el) el.value = value;
+}
+
+function updateEditorValues(){
+  const values = {
+    brightnessControl:"brightnessValue",
+    contrastControl:"contrastValue",
+    saturationControl:"saturationValue",
+    temperatureControl:"temperatureValue",
+    blurControl:"blurValue",
+    vignetteControl:"vignetteValue",
+    cropControl:"cropValue"
+  };
+
+  Object.keys(values).forEach(function(id){
+    const input = document.getElementById(id);
+    const output = document.getElementById(values[id]);
+
+    if(input && output){
+      output.textContent = input.value;
+    }
+  });
+}
+
+function showEditorTool(tool,button){
+  const panels = {
+    adjust:"editorAdjustPanel",
+    filters:"editorFiltersPanel",
+    effects:"editorEffectsPanel",
+    tools:"editorToolsPanel",
+    ai:"editorAIPanel",
+    text:"editorTextPanel",
+    creative:"editorCreativePanel",
+    crop:"editorCropPanel",
+    transform:"editorTransformPanel",
+    controls:"editorControlsPanel"
+  };
+
+  Object.keys(panels).forEach(function(key){
+    const panel = document.getElementById(panels[key]);
+    if(panel){
+      panel.style.display = key === tool ? "block" : "none";
+    }
+  });
+
+  document.querySelectorAll(".editor-tool").forEach(function(btn){
+    btn.classList.remove("active");
+  });
+
+  if(button){
+    button.classList.add("active");
+  }
+}
 
 function rotatePhoto(){
   const img = document.getElementById("editorImage");
+
   if(!img || !img.src || !img.naturalWidth){
     toast("Please select a photo first");
     return;
   }
 
   editorRotation = (editorRotation + 90) % 360;
-  img.style.transform = "rotate(" + editorRotation + "deg)";
+  applyPhotoFilters();
   toast("Photo rotated 90°");
 }
 
-let editorFilter = "normal";
+function flipPhoto(direction){
+  if(direction === "horizontal"){
+    editorFlipH = !editorFlipH;
+  }else{
+    editorFlipV = !editorFlipV;
+  }
+
+  applyPhotoFilters();
+  toast("Photo flipped");
+}
+
+function setEditorCrop(value){
+  setEditorValue("cropControl",value);
+  applyPhotoFilters();
+}
 
 function setPhotoFilter(filter){
   editorFilter = filter;
   applyPhotoFilters();
+  toast(filter === "normal" ? "Normal filter" : filter + " filter applied");
+}
+
+function setPhotoEffect(effect){
+  editorEffect = effect;
+  applyPhotoFilters();
+  toast(effect === "none" ? "Effect removed" : effect + " effect applied");
 }
 
 function resetPhotoEditor(){
   const img = document.getElementById("editorImage");
 
-  document.getElementById("brightnessControl").value = 100;
-  document.getElementById("contrastControl").value = 100;
-  document.getElementById("cropControl").value = 100;
-  document.getElementById("saturationControl").value = 100;
-  document.getElementById("blurControl").value = 0;
-  document.getElementById("vignetteControl").value = 0;
+  setEditorValue("brightnessControl",100);
+  setEditorValue("contrastControl",100);
+  setEditorValue("saturationControl",100);
+  setEditorValue("temperatureControl",0);
+  setEditorValue("exposureControl",0);
+  setEditorValue("tintControl",0);
+  setEditorValue("highlightsControl",0);
+  setEditorValue("shadowsControl",0);
+  setEditorValue("curvesControl",0);
+  setEditorValue("blurControl",0);
+  setEditorValue("vignetteControl",0);
+  setEditorValue("cropControl",100);
+
+  editorZoom = 100;
+  editorPanX = 0;
+  editorPanY = 0;
+  setEditorValue("editorZoomControl",100);
+  setEditorValue("editorPanXControl",0);
+  setEditorValue("editorPanYControl",0);
 
   editorRotation = 0;
   editorFilter = "normal";
+  editorEffect = "none";
+  editorFlipH = false;
+  editorFlipV = false;
+  editorCropRatio = "free";
+  editorFrameStyle = "none";
+  editorBorderStyle = "none";
 
   if(img){
     img.style.transform = "none";
     img.style.filter = "none";
     img.style.clipPath = "none";
+    img.style.border = "none";
   }
 
+  resetEditorTransform();
+  removeEditorStickers();
+
+  if(editorTextElement){
+    editorTextElement.remove();
+    editorTextElement = null;
+  }
+
+  updateEditorValues();
   applyPhotoFilters();
+
   toast("Photo edits reset");
+}
+
+function buildEditorFilter(){
+  const brightness = Number(document.getElementById("brightnessControl").value);
+  const contrast = Number(document.getElementById("contrastControl").value);
+  const saturation = Number(document.getElementById("saturationControl").value);
+  const temperature = Number(document.getElementById("temperatureControl").value);
+  const exposure = getAdvancedAdjustValue("exposureControl");
+  const tint = getAdvancedAdjustValue("tintControl");
+  const highlights = getAdvancedAdjustValue("highlightsControl");
+  const shadows = getAdvancedAdjustValue("shadowsControl");
+  const curves = getAdvancedAdjustValue("curvesControl");
+  const blur = Number(document.getElementById("blurControl").value);
+
+  const finalBrightness = Math.max(0,Math.min(200,
+    brightness + exposure * 0.35 + shadows * 0.12
+  ));
+  const finalContrast = Math.max(0,Math.min(200,
+    contrast + curves * 0.18 + highlights * 0.08
+  ));
+  const finalSaturation = Math.max(0,Math.min(250,
+    saturation + tint * 0.08
+  ));
+
+  let parts = [
+    "brightness(" + finalBrightness + "%)",
+    "contrast(" + finalContrast + "%)",
+    "saturate(" + finalSaturation + "%)"
+  ];
+
+  if(temperature > 0){
+    parts.push("sepia(" + Math.min(temperature,50) + "%)");
+  }
+
+  if(temperature < 0){
+    parts.push("hue-rotate(" + temperature + "deg)");
+  }
+
+  if(blur > 0){
+    parts.push("blur(" + blur + "px)");
+  }
+
+  if(editorFilter === "warm"){
+    parts.push("sepia(25%)","saturate(125%)");
+  }else if(editorFilter === "cool"){
+    parts.push("saturate(90%)","hue-rotate(15deg)");
+  }else if(editorFilter === "bw"){
+    parts.push("grayscale(100%)");
+  }else if(editorFilter === "vintage"){
+    parts.push("sepia(35%)","saturate(85%)","contrast(105%)");
+  }else if(editorFilter === "cinematic"){
+    parts.push("contrast(115%)","saturate(90%)","sepia(8%)");
+  }else if(editorFilter === "portrait"){
+    parts.push("brightness(105%)","contrast(105%)","saturate(110%)");
+  }else if(editorFilter === "hdr"){
+    parts.push("contrast(125%)","saturate(125%)");
+  }else if(editorFilter === "bright"){
+    parts.push("brightness(112%)","contrast(105%)","saturate(108%)");
+  }else if(editorFilter === "matte"){
+    parts.push("brightness(105%)","contrast(90%)","saturate(85%)");
+  }else if(editorFilter === "vivid"){
+    parts.push("contrast(112%)","saturate(140%)");
+  }else if(editorFilter === "golden"){
+    parts.push("sepia(22%)","saturate(125%)","brightness(105%)");
+  }else if(editorFilter === "mono"){
+    parts.push("grayscale(100%)","contrast(110%)");
+  }else if(editorFilter === "fade"){
+    parts.push("brightness(108%)","contrast(90%)","saturate(85%)");
+  }
+
+  if(editorEffect === "glow"){
+    parts.push("brightness(108%)","contrast(102%)","saturate(112%)");
+  }else if(editorEffect === "soft"){
+    parts.push("brightness(105%)","contrast(92%)","saturate(95%)","blur(.25px)");
+  }else if(editorEffect === "fade"){
+    parts.push("brightness(108%)","contrast(90%)","saturate(85%)");
+  }else if(editorEffect === "dramatic"){
+    parts.push("contrast(135%)","saturate(115%)");
+  }else if(editorEffect === "dreamy"){
+    parts.push("brightness(110%)","blur(.4px)","saturate(110%)");
+  }else if(editorEffect === "noir"){
+    parts.push("grayscale(100%)","contrast(130%)");
+  }else if(editorEffect === "sunset"){
+    parts.push("sepia(20%)","saturate(135%)","brightness(105%)");
+  }
+
+  return parts.join(" ");
+}
+
+
+function getAdvancedAdjustValue(id, fallback=0){
+  const el = document.getElementById(id);
+  return el ? Number(el.value) : fallback;
+}
+
+function applyAdvancedAdjustments(){
+  const img = document.getElementById("editorImage");
+  if(!img) return;
+
+  const exposure = getAdvancedAdjustValue("exposureControl");
+  const tint = getAdvancedAdjustValue("tintControl");
+  const highlights = getAdvancedAdjustValue("highlightsControl");
+  const shadows = getAdvancedAdjustValue("shadowsControl");
+  const curves = getAdvancedAdjustValue("curvesControl");
+
+  const exposureValue = document.getElementById("exposureValue");
+  const tintValue = document.getElementById("tintValue");
+  const highlightsValue = document.getElementById("highlightsValue");
+  const shadowsValue = document.getElementById("shadowsValue");
+
+  if(exposureValue) exposureValue.textContent = exposure;
+  if(tintValue) tintValue.textContent = tint;
+  if(highlightsValue) highlightsValue.textContent = highlights;
+  if(shadowsValue) shadowsValue.textContent = shadows;
+
+  const brightness =
+    getAdvancedAdjustValue("brightnessControl",100);
+
+  const contrast =
+    getAdvancedAdjustValue("contrastControl",100);
+
+  const saturation =
+    getAdvancedAdjustValue("saturationControl",100);
+
+  const temperature =
+    getAdvancedAdjustValue("temperatureControl");
+
+  const blur =
+    getAdvancedAdjustValue("blurControl");
+
+  let b = brightness + exposure * 0.35 + shadows * 0.12;
+  let c = contrast + curves * 0.18 + highlights * 0.08;
+  let sat = saturation + tint * 0.08;
+
+  b = Math.max(0, Math.min(200,b));
+  c = Math.max(0, Math.min(200,c));
+  sat = Math.max(0, Math.min(250,sat));
+
+  const temp = Math.max(-50,Math.min(50,temperature));
+
+  let filter =
+    "brightness(" + (b/100) + ") " +
+    "contrast(" + (c/100) + ") " +
+    "saturate(" + (sat/100) + ")";
+
+  if(temp > 0){
+    filter += " sepia(" + (temp/200) + ")";
+  }else if(temp < 0){
+    filter += " hue-rotate(" + Math.abs(temp) + "deg)";
+  }
+
+  if(blur > 0){
+    filter += " blur(" + blur + "px)";
+  }
+
+  img.style.filter = filter;
+}
+
+let editorHistoryTimer = null;
+
+function scheduleEditorHistory(){
+  clearTimeout(editorHistoryTimer);
+  editorHistoryTimer = setTimeout(function(){
+    captureEditorState();
+  }, 350);
+}
+
+function applyPhotoFilters(){
+  applyAdvancedAdjustments();
+
+  const img = document.getElementById("editorImage");
+
+  if(!img) return;
+
+  updateEditorValues();
+
+  const crop = Number(document.getElementById("cropControl").value);
+  const inset = (100 - crop) / 2;
+
+  img.style.filter = buildEditorFilter();
+
+  img.style.clipPath =
+    "inset(" + inset + "% " +
+    inset + "% " +
+    inset + "% " +
+    inset + "%)";
+
+  const scaleX = editorFlipH ? -1 : 1;
+  const scaleY = editorFlipV ? -1 : 1;
+
+  const zoom = typeof editorZoom === "number" ? editorZoom / 100 : 1;
+  const panX = typeof editorPanX === "number" ? editorPanX : 0;
+  const panY = typeof editorPanY === "number" ? editorPanY : 0;
+
+  img.style.transform =
+    "translate(" + panX + "px," + panY + "px) " +
+    "rotate(" + editorRotation + "deg) " +
+    "scale(" + (scaleX * zoom) + "," + (scaleY * zoom) + ")";
+
+  scheduleEditorHistory();
+}
+
+function drawEditorOverlays(ctx,canvas){
+  const area=document.querySelector(".editor-canvas-area");
+  if(!area) return;
+
+  const areaRect=area.getBoundingClientRect();
+
+  if(editorFrameStyle==="simple"){
+    ctx.strokeStyle="rgba(255,255,255,.9)";
+    ctx.lineWidth=8;
+    ctx.strokeRect(4,4,canvas.width-8,canvas.height-8);
+  }else if(editorFrameStyle==="double"){
+    ctx.strokeStyle="rgba(255,255,255,.95)";
+    ctx.lineWidth=5;
+    ctx.strokeRect(4,4,canvas.width-8,canvas.height-8);
+    ctx.strokeStyle="rgba(0,0,0,.75)";
+    ctx.lineWidth=6;
+    ctx.strokeRect(11,11,canvas.width-22,canvas.height-22);
+  }else if(editorFrameStyle==="shadow"){
+    ctx.save();
+    ctx.shadowColor="rgba(0,0,0,.45)";
+    ctx.shadowBlur=20;
+    ctx.strokeStyle="rgba(255,255,255,.9)";
+    ctx.lineWidth=3;
+    ctx.strokeRect(3,3,canvas.width-6,canvas.height-6);
+    ctx.restore();
+  }else if(editorFrameStyle==="polaroid"){
+    ctx.fillStyle="#ffffff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  }
+
+  if(editorBorderStyle!=="none"){
+    const widths={thin:2,medium:5,bold:10};
+    ctx.strokeStyle="rgba(255,255,255,.95)";
+    ctx.lineWidth=widths[editorBorderStyle] || 2;
+    ctx.strokeRect(
+      ctx.lineWidth/2,
+      ctx.lineWidth/2,
+      canvas.width-ctx.lineWidth,
+      canvas.height-ctx.lineWidth
+    );
+  }
+
+  if(editorTextElement){
+    const rect=editorTextElement.getBoundingClientRect();
+    const x=((rect.left+rect.width/2)-areaRect.left)/areaRect.width*canvas.width;
+    const y=((rect.top+rect.height/2)-areaRect.top)/areaRect.height*canvas.height;
+
+    const fontSize=parseFloat(getComputedStyle(editorTextElement).fontSize) || 32;
+    const fontFamily=getComputedStyle(editorTextElement).fontFamily || "Arial";
+    const fontWeight=getComputedStyle(editorTextElement).fontWeight || "400";
+    const fontStyle=getComputedStyle(editorTextElement).fontStyle || "normal";
+    const color=getComputedStyle(editorTextElement).color || "#ffffff";
+    const opacity=parseFloat(getComputedStyle(editorTextElement).opacity) || 1;
+
+    ctx.save();
+    ctx.globalAlpha=opacity;
+    ctx.fillStyle=color;
+    ctx.font=fontStyle+" "+fontWeight+" "+fontSize+"px "+fontFamily;
+    ctx.textAlign=getComputedStyle(editorTextElement).textAlign || "center";
+    ctx.textBaseline="middle";
+    ctx.shadowColor="rgba(0,0,0,.7)";
+    ctx.shadowBlur=5;
+
+    const lines=(editorTextElement.innerText || "Your Text").split("\n");
+    const lineHeight=fontSize*1.15;
+    lines.forEach(function(line,index){
+      ctx.fillText(
+        line,
+        x,
+        y+(index-(lines.length-1)/2)*lineHeight
+      );
+    });
+    ctx.restore();
+  }
+
+  editorStickerElements.forEach(function(sticker){
+    if(!sticker) return;
+
+    const rect=sticker.getBoundingClientRect();
+    const x=((rect.left+rect.width/2)-areaRect.left)/areaRect.width*canvas.width;
+    const y=((rect.top+rect.height/2)-areaRect.top)/areaRect.height*canvas.height;
+
+    const size=parseFloat(getComputedStyle(sticker).fontSize) || 52;
+    const opacity=parseFloat(getComputedStyle(sticker).opacity) || 1;
+    const transform=getComputedStyle(sticker).transform;
+
+    let rotation=0;
+    if(transform && transform!=="none"){
+      const match=transform.match(/matrix\(([^)]+)\)/);
+      if(match){
+        const values=match[1].split(",");
+        rotation=Math.atan2(
+          parseFloat(values[1]),
+          parseFloat(values[0])
+        );
+      }
+    }
+
+    ctx.save();
+    ctx.globalAlpha=opacity;
+    ctx.translate(x,y);
+    ctx.rotate(rotation);
+    ctx.font=size+"px sans-serif";
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText(sticker.textContent,x*0,y*0);
+    ctx.restore();
+  });
 }
 
 function saveEditedPhoto(){
   const img = document.getElementById("editorImage");
+
   if(!img || !img.src || !img.naturalWidth){
     toast("Please select a photo first");
     return;
   }
 
   const crop = Number(document.getElementById("cropControl").value) / 100;
+
   const sourceW = img.naturalWidth * crop;
   const sourceH = img.naturalHeight * crop;
+
   const sourceX = (img.naturalWidth - sourceW) / 2;
   const sourceY = (img.naturalHeight - sourceH) / 2;
 
@@ -1913,91 +4133,146 @@ function saveEditedPhoto(){
   const rotated = editorRotation % 180 !== 0;
 
   const canvas = document.createElement("canvas");
-  canvas.width = rotated ? sourceH : sourceW;
-  canvas.height = rotated ? sourceW : sourceH;
+
+  canvas.width = Math.max(1,Math.round(rotated ? sourceH : sourceW));
+  canvas.height = Math.max(1,Math.round(rotated ? sourceW : sourceH));
 
   const ctx = canvas.getContext("2d");
-  const brightness = document.getElementById("brightnessControl").value;
-  const contrast = document.getElementById("contrastControl").value;
-  const saturation = document.getElementById("saturationControl").value;
-  const blur = document.getElementById("blurControl").value;
-  const vignette = document.getElementById("vignetteControl").value;
 
-  ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate(angle);
-  let filterEffect = "";
+  const brightness = Number(document.getElementById("brightnessControl").value);
+  const contrast = Number(document.getElementById("contrastControl").value);
+  const saturation = Number(document.getElementById("saturationControl").value);
+  const temperature = Number(document.getElementById("temperatureControl").value);
+  const exposure = getAdvancedAdjustValue("exposureControl");
+  const tint = getAdvancedAdjustValue("tintControl");
+  const highlights = getAdvancedAdjustValue("highlightsControl");
+  const shadows = getAdvancedAdjustValue("shadowsControl");
+  const curves = getAdvancedAdjustValue("curvesControl");
+  const blur = Number(document.getElementById("blurControl").value);
+  const vignette = Number(document.getElementById("vignetteControl").value);
 
-  if(editorFilter === "warm"){
-    filterEffect = " sepia(25%) saturate(125%)";
-  } else if(editorFilter === "cool"){
-    filterEffect = " saturate(90%) hue-rotate(15deg)";
-  } else if(editorFilter === "bw"){
-    filterEffect = " grayscale(100%)";
-  } else if(editorFilter === "vintage"){
-    filterEffect = " sepia(35%) saturate(85%) contrast(105%)";
+  const finalBrightness = Math.max(0,Math.min(200,
+    brightness + exposure * 0.35 + shadows * 0.12
+  ));
+  const finalContrast = Math.max(0,Math.min(200,
+    contrast + curves * 0.18 + highlights * 0.08
+  ));
+  const finalSaturation = Math.max(0,Math.min(250,
+    saturation + tint * 0.08
+  ));
+
+  let filterEffect =
+    "brightness(" + finalBrightness + "%) " +
+    "contrast(" + finalContrast + "%) " +
+    "saturate(" + finalSaturation + "%)";
+
+  if(temperature > 0){
+    filterEffect += " sepia(" + Math.min(temperature,50) + "%)";
   }
 
-  ctx.filter =
-    "brightness(" + brightness + "%) contrast(" + contrast + "%) saturate(" + saturation + "%) blur(" + blur + "px)" + filterEffect;
+  if(temperature < 0){
+    filterEffect += " hue-rotate(" + temperature + "deg)";
+  }
+
+  if(blur > 0){
+    filterEffect += " blur(" + blur + "px)";
+  }
+
+  if(editorFilter === "warm"){
+    filterEffect += " sepia(25%) saturate(125%)";
+  }else if(editorFilter === "cool"){
+    filterEffect += " saturate(90%) hue-rotate(15deg)";
+  }else if(editorFilter === "bw"){
+    filterEffect += " grayscale(100%)";
+  }else if(editorFilter === "vintage"){
+    filterEffect += " sepia(35%) saturate(85%) contrast(105%)";
+  }else if(editorFilter === "cinematic"){
+    filterEffect += " contrast(115%) saturate(90%) sepia(8%)";
+  }else if(editorFilter === "portrait"){
+    filterEffect += " brightness(105%) contrast(105%) saturate(110%)";
+  }else if(editorFilter === "hdr"){
+    filterEffect += " contrast(125%) saturate(125%)";
+  }
+
+  if(editorEffect === "fade"){
+    filterEffect += " brightness(108%) contrast(90%) saturate(85%)";
+  }else if(editorEffect === "dramatic"){
+    filterEffect += " contrast(135%) saturate(115%)";
+  }else if(editorEffect === "dreamy"){
+    filterEffect += " brightness(110%) blur(.4px) saturate(110%)";
+  }else if(editorEffect === "noir"){
+    filterEffect += " grayscale(100%) contrast(130%)";
+  }else if(editorEffect === "sunset"){
+    filterEffect += " sepia(20%) saturate(135%) brightness(105%)";
+  }
+
+  ctx.save();
+
+  ctx.translate(canvas.width / 2,canvas.height / 2);
+  ctx.rotate(angle);
+
+  const scaleX = editorFlipH ? -1 : 1;
+  const scaleY = editorFlipV ? -1 : 1;
+
+  ctx.scale(scaleX,scaleY);
+
+  ctx.filter = filterEffect;
 
   ctx.drawImage(
     img,
-    sourceX, sourceY, sourceW, sourceH,
-    -sourceW / 2, -sourceH / 2, sourceW, sourceH
+    sourceX,
+    sourceY,
+    sourceW,
+    sourceH,
+    -sourceW / 2,
+    -sourceH / 2,
+    sourceW,
+    sourceH
   );
 
-  if(Number(vignette) > 0){
+  ctx.restore();
+
+  if(vignette > 0){
     const gradient = ctx.createRadialGradient(
       canvas.width / 2,
       canvas.height / 2,
-      Math.min(canvas.width, canvas.height) * 0.25,
+      Math.min(canvas.width,canvas.height) * .25,
       canvas.width / 2,
       canvas.height / 2,
-      Math.max(canvas.width, canvas.height) * 0.7
+      Math.max(canvas.width,canvas.height) * .72
     );
-    gradient.addColorStop(0, "rgba(0,0,0,0)");
-    gradient.addColorStop(1, "rgba(0,0,0," + (Number(vignette) / 100) + ")");
+
+    gradient.addColorStop(0,"rgba(0,0,0,0)");
+    gradient.addColorStop(
+      1,
+      "rgba(0,0,0," + (vignette / 100) + ")"
+    );
+
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0,0,canvas.width,canvas.height);
   }
 
-  const link = document.createElement("a");
-  link.download = "CaptionAI-Edited.jpg";
-  link.href = canvas.toDataURL("image/jpeg", 0.92);
-  link.click();
+  drawEditorOverlays(ctx,canvas);
 
-  toast("Edited photo saved");
-}
-
-function applyPhotoFilters(){
-  const img = document.getElementById("editorImage");
-  const brightness = document.getElementById("brightnessControl").value;
-  const contrast = document.getElementById("contrastControl").value;
-  const saturation = document.getElementById("saturationControl").value;
-  const blur = document.getElementById("blurControl").value;
-  const vignette = document.getElementById("vignetteControl").value;
-
-  if(img){
-    const crop = Number(document.getElementById("cropControl").value);
-    const inset = (100 - crop) / 2;
-
-    let filterEffect = "";
-
-    if(editorFilter === "warm"){
-      filterEffect = "sepia(25%) saturate(125%)";
-    } else if(editorFilter === "cool"){
-      filterEffect = "saturate(90%) hue-rotate(15deg)";
-    } else if(editorFilter === "bw"){
-      filterEffect = "grayscale(100%)";
-    } else if(editorFilter === "vintage"){
-      filterEffect = "sepia(35%) saturate(85%) contrast(105%)";
+  canvas.toBlob(function(blob){
+    if(!blob){
+      toast("Unable to save photo");
+      return;
     }
 
-    img.style.filter =
-      "brightness(" + brightness + "%) contrast(" + contrast + "%) saturate(" + saturation + "%) blur(" + blur + "px) " + filterEffect;
-    img.style.clipPath =
-      "inset(" + inset + "% " + inset + "% " + inset + "% " + inset + "%)";
-  }
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.download = "CaptionAI-Edited.jpg";
+    link.href = url;
+    link.click();
+
+    setTimeout(function(){
+      URL.revokeObjectURL(url);
+    },2000);
+
+    toast("Edited photo saved");
+  },"image/jpeg",.92);
 }
 
 </script>
